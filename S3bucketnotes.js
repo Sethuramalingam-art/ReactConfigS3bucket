@@ -2,6 +2,8 @@ Ccreate S# bucket and use it on react
 
 https://awstip.com/setting-up-simple-aws-s3-bucket-in-react-bf7e2c3d7e3e
 
+https://medium.com/boca-code/deploy-your-react-app-to-aws-s3-bucket-and-with-ci-cd-1c9ce03023c2 - deploy react app in s3 bucket with/without CICD
+
 Create bucket in S3 AWS
 
 S3 function :
