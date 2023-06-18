@@ -1,0 +1,98 @@
+Ccreate S# bucket and use it on react
+
+https://awstip.com/setting-up-simple-aws-s3-bucket-in-react-bf7e2c3d7e3e
+
+Create bucket in S3 AWS
+
+under permissions tab:
+
+bucket policy
+
+{
+"Version": "2012-10-17",
+"Statement": [
+{
+"Sid": "BucketPermissions",
+"Effect": "Allow",
+"Principal": "_",
+"Action": [
+"s3:PutObject",
+"s3:GetObject",
+"s3:ListBucket",
+"s3:DeleteObject"
+],
+"Resource": [
+"arn:aws:s3:::your_bucket_name",
+"arn:aws:s3:::your_bucket_name/_"
+]
+}
+]
+}
+
+then set up the CORS policy, copy and paste this to CORS policy:-
+
+[
+{
+"AllowedHeaders": [
+"*"
+],
+"AllowedMethods": [
+"PUT",
+"POST",
+"DELETE",
+"GET"
+],
+"AllowedOrigins": [
+"*"
+],
+"ExposeHeaders": [
+"ETag"
+]
+}
+]
+
+under properties tab:
+
+static website hoisting -> enabled
+
+index document : index.html
+
+create a folders
+
+images folder
+
+=======================================================================
+
+now npm i react-s3
+
+import { imagesAdded } from "./imagesSlice"
+const Images = ({ handleImages }) => {
+const S3_BUCKET = "your_bucket_name"
+const REGION = "us-east-1"
+const dispatch = useDispatch()
+const config = {
+bucketName: S3_BUCKET,
+dirName: "images",
+region: REGION,
+accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+s3Url: "your_bucket_url_from_static_website_hosting",
+}
+function upload(e) {
+uploadFile(e.target.files[0], config)
+.then((data) => {
+handleImages(data.location)
+dispatch(imagesAdded(data.location))
+})
+.catch((err) => console.log(err))
+}
+return (
+
+<div>
+<Form.Group controlId="formFileMultiple" className="mb-3"><Form.Label>Image 1</Form.Label>
+<Form.Control type="file" name="images" multiple onChange={upload} />
+</Form.Group>
+</div>
+)
+}
+export default Images
